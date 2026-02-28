@@ -16,7 +16,7 @@ export interface ToolDef {
 }
 
 /** IDs that are hidden from the UI but whose components still exist */
-export const hiddenTools: Set<ToolId> = new Set(['compress']);
+export const hiddenTools: Set<ToolId> = new Set([]);
 
 export const toolDefs: ToolDef[] = [
   {

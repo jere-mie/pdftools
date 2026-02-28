@@ -1,6 +1,6 @@
 # PDFTools
 
-A free, browser-based PDF toolkit. Merge, split, rotate, resize, reorder, and delete pages - all processing happens locally in your browser. No uploads, no servers, 100% private.
+A free, browser-based PDF toolkit. Merge, split, rotate, resize, reorder, compress, and delete pages - all processing happens locally in your browser. No uploads, no servers, 100% private.
 
 ## Features
 
@@ -12,6 +12,7 @@ A free, browser-based PDF toolkit. Merge, split, rotate, resize, reorder, and de
 | **Delete Pages** | Click to select and remove unwanted pages from a document. |
 | **Reorder** | Drag-and-drop pages to rearrange their order with live thumbnails. |
 | **Resize** | Pad pages to standard sizes (A4, Letter, Legal, A3, A5, Tabloid). Content is scaled to fit and centered - nothing is cropped. |
+| **Compress** | Reduce file size using Ghostscript WebAssembly. Downsamples images, subsets fonts, and strips redundant objects. Four quality presets: Screen, eBook, Print, Prepress. |
 
 ## Tech Stack
 
@@ -20,6 +21,7 @@ A free, browser-based PDF toolkit. Merge, split, rotate, resize, reorder, and de
 - **Tailwind CSS v4** for styling
 - **pdf-lib** for PDF manipulation (merge, split, rotate, resize, etc.)
 - **pdfjs-dist** for rendering page thumbnails in the browser
+- **@jspawn/ghostscript-wasm** for Ghostscript-powered compression (runs in a Web Worker)
 - Fully client-side - no backend required
 
 ## Getting Started
@@ -56,7 +58,7 @@ src/
 │       ├── RotateTool.tsx
 │       ├── DeletePagesTool.tsx
 │       ├── ReorderTool.tsx
-│       ├── CompressTool.tsx   # Hidden - pending WASM implementation
+│       ├── CompressTool.tsx
 │       └── ResizeTool.tsx
 ```
 

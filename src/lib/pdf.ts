@@ -167,23 +167,48 @@ export async function reorderPdfPages(
   return newDoc.save();
 }
 
-export async function compressPdf(data: ArrayBuffer): Promise<Uint8Array> {
-  // Re-serialize through a fresh document for potential size reduction
-  const source = await PDFDocument.load(data, { ignoreEncryption: true });
-  const newDoc = await PDFDocument.create();
+export type GsQuality = 'screen' | 'ebook' | 'printer' | 'prepress';
 
-  const pages = await newDoc.copyPages(source, source.getPageIndices());
-  pages.forEach((p) => newDoc.addPage(p));
+/**
+ * Compress a PDF using Ghostscript WASM in a dedicated web worker.
+ * Ghostscript performs real image downsampling and font subsetting, producing
+ * significantly smaller files compared to a pure JS re-serialisation.
+ *
+ * @param data     - Raw PDF bytes
+ * @param quality  - Ghostscript PDFSETTINGS preset (screen < ebook < printer < prepress)
+ */
+export function compressPdf(
+  data: ArrayBuffer,
+  quality: GsQuality = 'ebook',
+): Promise<Uint8Array> {
+  return new Promise((resolve, reject) => {
+    const worker = new Worker(
+      new URL('../workers/ghostscript.worker.ts', import.meta.url),
+      { type: 'module' },
+    );
 
-  // Strip metadata
-  newDoc.setTitle('');
-  newDoc.setAuthor('');
-  newDoc.setSubject('');
-  newDoc.setKeywords([]);
-  newDoc.setProducer('PDFTools');
-  newDoc.setCreator('PDFTools');
+    const id = Math.random().toString(36).slice(2);
 
-  return newDoc.save();
+    worker.onmessage = (event) => {
+      const { id: msgId, result, error } = event.data;
+      if (msgId !== id) return;
+      worker.terminate();
+      if (error) {
+        reject(new Error(error));
+      } else {
+        resolve(new Uint8Array(result as ArrayBuffer));
+      }
+    };
+
+    worker.onerror = (err) => {
+      worker.terminate();
+      reject(err);
+    };
+
+    // Transfer the buffer so the worker owns it and no copy is made
+    const copy = data.slice(0);
+    worker.postMessage({ id, pdfData: copy, quality }, [copy]);
+  });
 }
 
 export const PAGE_SIZES: Record<string, [number, number]> = {

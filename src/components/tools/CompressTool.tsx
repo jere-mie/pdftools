@@ -1,12 +1,41 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import FileUpload from '../FileUpload';
-import type { PDFFileInfo } from '../../lib/pdf';
+import type { PDFFileInfo, GsQuality } from '../../lib/pdf';
 import { getPdfInfo, compressPdf, downloadBlob, formatFileSize } from '../../lib/pdf';
+
+const QUALITY_OPTIONS: { value: GsQuality; label: string; description: string }[] = [
+  { value: 'screen', label: 'Screen', description: '72 dpi · smallest file' },
+  { value: 'ebook', label: 'eBook', description: '150 dpi · balanced' },
+  { value: 'printer', label: 'Print', description: '300 dpi · high quality' },
+  { value: 'prepress', label: 'Prepress', description: '300+ dpi · largest file' },
+];
 
 export default function CompressTool() {
   const [pdfInfo, setPdfInfo] = useState<PDFFileInfo | null>(null);
   const [processing, setProcessing] = useState(false);
+  const [quality, setQuality] = useState<GsQuality>('ebook');
   const [result, setResult] = useState<{ data: Uint8Array; size: number } | null>(null);
+  const [progress, setProgress] = useState(0);
+  const progressIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  // Elastic simulated progress: advances quickly then decelerates toward 90%
+  useEffect(() => {
+    if (processing) {
+      setProgress(0);
+      progressIntervalRef.current = setInterval(() => {
+        setProgress((p) => p + (90 - p) * 0.045);
+      }, 250);
+    } else {
+      if (progressIntervalRef.current) {
+        clearInterval(progressIntervalRef.current);
+        progressIntervalRef.current = null;
+      }
+      // Snap to 100 briefly when done, then reset
+      setProgress(100);
+      const t = setTimeout(() => setProgress(0), 600);
+      return () => clearTimeout(t);
+    }
+  }, [processing]);
 
   const handleFileSelected = useCallback(async (files: File[]) => {
     const info = await getPdfInfo(files[0]);
@@ -18,11 +47,11 @@ export default function CompressTool() {
     if (!pdfInfo) return;
     setProcessing(true);
     try {
-      const data = await compressPdf(pdfInfo.data);
+      const data = await compressPdf(pdfInfo.data, quality);
       setResult({ data, size: data.length });
     } catch (err) {
       console.error('Compress failed:', err);
-      alert('Failed to optimize PDF.');
+      alert('Failed to compress PDF.');
     } finally {
       setProcessing(false);
     }
@@ -37,6 +66,7 @@ export default function CompressTool() {
   const reset = () => {
     setPdfInfo(null);
     setResult(null);
+    setProgress(0);
   };
 
   if (!pdfInfo) {
@@ -44,7 +74,7 @@ export default function CompressTool() {
       <FileUpload
         onFilesSelected={handleFileSelected}
         label="Drop a PDF to compress"
-        description="Optimize your PDF by stripping metadata and re-serializing"
+        description="Optimize your PDF with Ghostscript - real image downsampling and font subsetting"
       />
     );
   }
@@ -72,6 +102,28 @@ export default function CompressTool() {
         </button>
       </div>
 
+      {/* Quality selector */}
+      <div className="space-y-3">
+        <p className="text-sm font-display font-bold">Quality preset</p>
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+          {QUALITY_OPTIONS.map((opt) => (
+            <button
+              key={opt.value}
+              onClick={() => { setResult(null); setQuality(opt.value); }}
+              disabled={processing}
+              className={`flex flex-col items-start p-3 rounded-xl border transition-all cursor-pointer disabled:opacity-40 ${
+                quality === opt.value
+                  ? 'border-accent bg-accent-muted text-accent'
+                  : 'border-border bg-surface hover:border-accent/50'
+              }`}
+            >
+              <span className="font-display font-bold text-sm">{opt.label}</span>
+              <span className="text-xs text-text-muted mt-0.5">{opt.description}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+
       {/* Info box */}
       <div className="p-5 rounded-xl bg-surface-elevated border border-border">
         <h3 className="font-display font-bold text-sm mb-2">
@@ -80,20 +132,19 @@ export default function CompressTool() {
         <ul className="space-y-1.5 text-sm text-text-muted">
           <li className="flex items-start gap-2">
             <span className="text-accent mt-0.5">→</span>
-            Re-serializes the PDF through a clean document structure
+            Downsamples and recompresses images to the selected quality
           </li>
           <li className="flex items-start gap-2">
             <span className="text-accent mt-0.5">→</span>
-            Strips document metadata (author, title, keywords)
+            Subsets and removes unused embedded fonts
           </li>
           <li className="flex items-start gap-2">
             <span className="text-accent mt-0.5">→</span>
-            Removes unused objects and redundancies
+            Strips metadata and removes redundant PDF objects
           </li>
         </ul>
         <p className="text-xs text-text-dim mt-3">
-          Note: This is a frontend-only optimization. For maximum compression
-          (including image downsampling), a server-side tool is recommended.
+          Processed locally in your browser via Ghostscript WebAssembly - no upload required.
         </p>
       </div>
 
@@ -136,6 +187,25 @@ export default function CompressTool() {
               This PDF is already well-optimized. The output may be the same size or slightly larger.
             </p>
           )}
+        </div>
+      )}
+
+      {/* Progress bar */}
+      {processing && (
+        <div className="space-y-2">
+          <div className="flex justify-between items-center text-xs text-text-muted">
+            <span>Processing with Ghostscript...</span>
+            <span className="font-mono">{Math.round(progress)}%</span>
+          </div>
+          <div className="h-2 rounded-full bg-surface-elevated overflow-hidden">
+            <div
+              className="h-full rounded-full bg-accent transition-all duration-300 ease-out"
+              style={{ width: `${progress}%` }}
+            />
+          </div>
+          <p className="text-xs text-text-dim">
+            This may take a moment for large or image-heavy PDFs.
+          </p>
         </div>
       )}
 
