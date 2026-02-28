@@ -119,7 +119,7 @@ export default function DeletePagesTool() {
       <button
         onClick={handleDelete}
         disabled={processing || selected.size === 0 || remaining === 0}
-        className="px-8 py-3 bg-danger hover:bg-danger/80 text-white font-display font-bold rounded-xl transition-all disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer flex items-center gap-3"
+        className="w-full sm:w-auto px-6 sm:px-8 py-3 bg-danger hover:bg-danger/80 text-white font-display font-bold rounded-xl transition-all disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer flex items-center justify-center gap-3"
       >
         {processing ? (
           <>

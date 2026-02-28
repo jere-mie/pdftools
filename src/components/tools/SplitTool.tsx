@@ -115,11 +115,10 @@ export default function SplitTool() {
         <div className="grid grid-cols-2 gap-3">
           <button
             onClick={() => { setMode('each'); setDone(false); }}
-            className={`p-4 rounded-xl border-2 text-left transition-all cursor-pointer ${
-              mode === 'each'
+            className={`p-4 rounded-xl border-2 text-left transition-all cursor-pointer ${mode === 'each'
                 ? 'border-accent bg-accent-muted'
                 : 'border-border hover:border-border-light'
-            }`}
+              }`}
           >
             <p className="font-display font-bold text-sm">Extract every page</p>
             <p className="text-xs text-text-muted mt-1">
@@ -128,11 +127,10 @@ export default function SplitTool() {
           </button>
           <button
             onClick={() => { setMode('ranges'); setDone(false); }}
-            className={`p-4 rounded-xl border-2 text-left transition-all cursor-pointer ${
-              mode === 'ranges'
+            className={`p-4 rounded-xl border-2 text-left transition-all cursor-pointer ${mode === 'ranges'
                 ? 'border-accent bg-accent-muted'
                 : 'border-border hover:border-border-light'
-            }`}
+              }`}
           >
             <p className="font-display font-bold text-sm">Custom ranges</p>
             <p className="text-xs text-text-muted mt-1">
@@ -167,7 +165,7 @@ export default function SplitTool() {
       <button
         onClick={handleSplit}
         disabled={processing || (mode === 'ranges' && !validRanges)}
-        className="px-8 py-3 bg-accent hover:bg-accent-hover text-white font-display font-bold rounded-xl transition-all disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer flex items-center gap-3"
+        className="w-full sm:w-auto px-6 sm:px-8 py-3 bg-accent hover:bg-accent-hover text-white font-display font-bold rounded-xl transition-all disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer flex items-center justify-center gap-3"
       >
         {processing ? (
           <>

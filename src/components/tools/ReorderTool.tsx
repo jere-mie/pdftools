@@ -115,7 +115,7 @@ export default function ReorderTool() {
       </div>
 
       {/* Controls */}
-      <div className="flex items-center gap-4">
+      <div className="flex flex-wrap items-center gap-3">
         <span className="text-sm text-text-muted">
           Drag pages to reorder them
         </span>
@@ -145,9 +145,8 @@ export default function ReorderTool() {
             onDragEnter={() => handleDragEnter(currentIdx)}
             onDragOver={(e) => handleDragOver(e)}
             onDragEnd={handleDragEnd}
-            className={`relative cursor-grab active:cursor-grabbing transition-all ${
-              dragIdx === currentIdx ? 'opacity-40 scale-95' : ''
-            }`}
+            className={`relative cursor-grab active:cursor-grabbing transition-all ${dragIdx === currentIdx ? 'opacity-40 scale-95' : ''
+              }`}
           >
             {/* Position badge */}
             <div className="absolute -top-2 -left-2 z-10 w-7 h-7 rounded-full bg-accent text-white text-[11px] font-mono font-bold flex items-center justify-center shadow-lg">
@@ -167,7 +166,7 @@ export default function ReorderTool() {
       <button
         onClick={handleReorder}
         disabled={processing || !isModified}
-        className="px-8 py-3 bg-accent hover:bg-accent-hover text-white font-display font-bold rounded-xl transition-all disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer flex items-center gap-3"
+        className="w-full sm:w-auto px-6 sm:px-8 py-3 bg-accent hover:bg-accent-hover text-white font-display font-bold rounded-xl transition-all disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer flex items-center justify-center gap-3"
       >
         {processing ? (
           <>

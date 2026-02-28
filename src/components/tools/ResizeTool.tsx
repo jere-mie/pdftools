@@ -80,18 +80,17 @@ export default function ResizeTool() {
       {/* Page size selection */}
       <div className="space-y-4">
         <h3 className="font-display font-bold text-lg">Target Page Size</h3>
-        <div className="grid grid-cols-3 sm:grid-cols-6 gap-3">
+        <div className="grid grid-cols-3 sm:grid-cols-6 gap-2 sm:gap-3">
           {SIZE_KEYS.map((key) => {
             const [sw, sh] = PAGE_SIZES[key];
             return (
               <button
                 key={key}
                 onClick={() => { setSelectedSize(key); setDone(false); }}
-                className={`p-4 rounded-xl border-2 text-center transition-all cursor-pointer ${
-                  selectedSize === key
+                className={`p-4 rounded-xl border-2 text-center transition-all cursor-pointer ${selectedSize === key
                     ? 'border-accent bg-accent-muted'
                     : 'border-border hover:border-border-light'
-                }`}
+                  }`}
               >
                 <p className="font-display font-bold text-sm">{key}</p>
                 <p className="text-[10px] text-text-muted font-mono mt-1">
@@ -109,22 +108,20 @@ export default function ResizeTool() {
         <div className="grid grid-cols-2 gap-3 max-w-sm">
           <button
             onClick={() => { setOrientation('portrait'); setDone(false); }}
-            className={`p-4 rounded-xl border-2 flex items-center gap-3 transition-all cursor-pointer ${
-              orientation === 'portrait'
+            className={`p-4 rounded-xl border-2 flex items-center gap-3 transition-all cursor-pointer ${orientation === 'portrait'
                 ? 'border-accent bg-accent-muted'
                 : 'border-border hover:border-border-light'
-            }`}
+              }`}
           >
             <div className="w-6 h-8 rounded border-2 border-current opacity-50" />
             <span className="font-display font-bold text-sm">Portrait</span>
           </button>
           <button
             onClick={() => { setOrientation('landscape'); setDone(false); }}
-            className={`p-4 rounded-xl border-2 flex items-center gap-3 transition-all cursor-pointer ${
-              orientation === 'landscape'
+            className={`p-4 rounded-xl border-2 flex items-center gap-3 transition-all cursor-pointer ${orientation === 'landscape'
                 ? 'border-accent bg-accent-muted'
                 : 'border-border hover:border-border-light'
-            }`}
+              }`}
           >
             <div className="w-8 h-6 rounded border-2 border-current opacity-50" />
             <span className="font-display font-bold text-sm">Landscape</span>
@@ -150,7 +147,7 @@ export default function ResizeTool() {
       <button
         onClick={handleResize}
         disabled={processing}
-        className="px-8 py-3 bg-accent hover:bg-accent-hover text-white font-display font-bold rounded-xl transition-all disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer flex items-center gap-3"
+        className="w-full sm:w-auto px-6 sm:px-8 py-3 bg-accent hover:bg-accent-hover text-white font-display font-bold rounded-xl transition-all disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer flex items-center justify-center gap-3"
       >
         {processing ? (
           <>

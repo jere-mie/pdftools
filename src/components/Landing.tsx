@@ -15,7 +15,7 @@ export default function Landing({ onSelectTool }: LandingProps) {
       </div>
 
       {/* Hero */}
-      <header className="relative pt-20 pb-16 px-6">
+      <header className="relative pt-10 sm:pt-20 pb-10 sm:pb-16 px-4 sm:px-6">
         <div className="max-w-5xl mx-auto">
           {/* Badge */}
           <div className="animate-fade-in-up mb-8">
@@ -26,7 +26,7 @@ export default function Landing({ onSelectTool }: LandingProps) {
           </div>
 
           {/* Title */}
-          <h1 className="animate-fade-in-up stagger-1 font-display font-extrabold text-6xl sm:text-7xl md:text-8xl tracking-tight leading-[0.9]">
+          <h1 className="animate-fade-in-up stagger-1 font-display font-extrabold text-5xl sm:text-7xl md:text-8xl tracking-tight leading-[0.9]">
             <span className="text-text">PDF</span>
             <span className="text-accent">TOOLS</span>
           </h1>
@@ -49,7 +49,7 @@ export default function Landing({ onSelectTool }: LandingProps) {
       </header>
 
       {/* Tool Grid */}
-      <section className="relative px-6 pb-24">
+      <section className="relative px-4 sm:px-6 pb-16 sm:pb-24">
         <div className="max-w-5xl mx-auto">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {toolDefs.filter((t) => !hiddenTools.has(t.id)).map((tool, i) => (
@@ -100,8 +100,8 @@ export default function Landing({ onSelectTool }: LandingProps) {
       </section>
 
       {/* Footer */}
-      <footer className="relative border-t border-border/50 py-8 px-6">
-        <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-text-dim">
+      <footer className="relative border-t border-border/50 py-8 px-4 sm:px-6">
+        <div className="max-w-5xl mx-auto flex flex-col items-center sm:flex-row sm:justify-between gap-3 text-xs text-text-dim text-center sm:text-left">
           <p className="font-mono">
             <span className="text-accent font-bold">PDFTOOLS</span> · MIT License · All
             processing happens in your browser

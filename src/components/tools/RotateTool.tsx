@@ -85,7 +85,7 @@ export default function RotateTool() {
       </div>
 
       {/* Rotate all controls */}
-      <div className="flex items-center gap-4">
+      <div className="flex flex-wrap items-center gap-3">
         <span className="text-sm text-text-muted font-medium">Rotate all:</span>
         {[90, 180, 270].map((deg) => (
           <button
@@ -140,7 +140,7 @@ export default function RotateTool() {
       <button
         onClick={handleRotate}
         disabled={processing || rotations.size === 0}
-        className="px-8 py-3 bg-accent hover:bg-accent-hover text-white font-display font-bold rounded-xl transition-all disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer flex items-center gap-3"
+        className="w-full sm:w-auto px-6 sm:px-8 py-3 bg-accent hover:bg-accent-hover text-white font-display font-bold rounded-xl transition-all disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer flex items-center justify-center gap-3"
       >
         {processing ? (
           <>

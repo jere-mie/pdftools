@@ -20,7 +20,7 @@ function FileThumbnail({ file, onLoaded }: { file: File; onLoaded: (url: string)
         setSrc(url);
         onLoaded(url);
       }),
-    ).catch(() => {});
+    ).catch(() => { });
   }, [file, onLoaded]);
 
   if (!src) {
@@ -152,9 +152,8 @@ export default function MergeTool() {
                 onDragEnter={() => handleDragEnter(index)}
                 onDragOver={(e) => e.preventDefault()}
                 onDragEnd={handleDragEnd}
-                className={`flex items-center gap-4 p-4 rounded-xl bg-surface border border-border group hover:border-border-light transition-all cursor-grab active:cursor-grabbing ${
-                  dragIdx === index ? 'opacity-40 scale-[0.98]' : ''
-                }`}
+                className={`flex items-center gap-3 p-3 sm:p-4 rounded-xl bg-surface border border-border group hover:border-border-light transition-all cursor-grab active:cursor-grabbing ${dragIdx === index ? 'opacity-40 scale-[0.98]' : ''
+                  }`}
               >
                 {/* Drag handle + order */}
                 <div className="flex items-center gap-3">
@@ -186,8 +185,8 @@ export default function MergeTool() {
                   </p>
                 </div>
 
-                {/* Move buttons */}
-                <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                {/* Move buttons - always visible on mobile, hover-only on desktop */}
+                <div className="flex gap-1 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity">
                   <button
                     onClick={(e) => { e.stopPropagation(); index > 0 && moveFile(index, index - 1); }}
                     disabled={index === 0}
@@ -225,11 +224,11 @@ export default function MergeTool() {
           </div>
 
           {/* Action */}
-          <div className="flex items-center gap-4 pt-2">
+          <div className="flex flex-wrap items-center gap-4 pt-2">
             <button
               onClick={handleMerge}
               disabled={files.length < 2 || processing}
-              className="px-8 py-3 bg-accent hover:bg-accent-hover text-white font-display font-bold rounded-xl transition-all disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer flex items-center gap-3"
+              className="px-6 sm:px-8 py-3 bg-accent hover:bg-accent-hover text-white font-display font-bold rounded-xl transition-all disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer flex items-center gap-3"
             >
               {processing ? (
                 <>

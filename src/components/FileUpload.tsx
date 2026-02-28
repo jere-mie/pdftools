@@ -47,13 +47,12 @@ export default function FileUpload({
       onDragLeave={() => setIsDragging(false)}
       onDrop={handleDrop}
       className={`
-        relative flex flex-col items-center justify-center gap-5
-        w-full min-h-[300px] rounded-2xl border-2 border-dashed
-        cursor-pointer transition-all duration-300 group
-        ${
-          isDragging
-            ? 'border-accent bg-accent-muted scale-[1.005]'
-            : 'border-border hover:border-accent/40 hover:bg-surface/60'
+        relative flex flex-col items-center justify-center gap-4 sm:gap-5
+        w-full min-h-[200px] sm:min-h-[300px] rounded-2xl border-2 border-dashed
+        cursor-pointer transition-all duration-300 group px-4
+        ${isDragging
+          ? 'border-accent bg-accent-muted scale-[1.005]'
+          : 'border-border hover:border-accent/40 hover:bg-surface/60'
         }
       `}
     >
@@ -67,9 +66,8 @@ export default function FileUpload({
 
       {/* Upload icon */}
       <div
-        className={`transition-all duration-300 ${
-          isDragging ? 'scale-110 -translate-y-1' : 'group-hover:scale-105'
-        }`}
+        className={`transition-all duration-300 ${isDragging ? 'scale-110 -translate-y-1' : 'group-hover:scale-105'
+          }`}
       >
         <svg
           width="64"

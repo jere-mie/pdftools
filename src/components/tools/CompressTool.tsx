@@ -111,11 +111,10 @@ export default function CompressTool() {
               key={opt.value}
               onClick={() => { setResult(null); setQuality(opt.value); }}
               disabled={processing}
-              className={`flex flex-col items-start p-3 rounded-xl border transition-all cursor-pointer disabled:opacity-40 ${
-                quality === opt.value
+              className={`flex flex-col items-start p-3 rounded-xl border transition-all cursor-pointer disabled:opacity-40 ${quality === opt.value
                   ? 'border-accent bg-accent-muted text-accent'
                   : 'border-border bg-surface hover:border-accent/50'
-              }`}
+                }`}
             >
               <span className="font-display font-bold text-sm">{opt.label}</span>
               <span className="text-xs text-text-muted mt-0.5">{opt.description}</span>
@@ -151,7 +150,7 @@ export default function CompressTool() {
       {/* Result */}
       {result && (
         <div className="p-6 rounded-xl border-2 border-accent/30 bg-accent-muted animate-fade-in">
-          <div className="grid grid-cols-3 gap-6 text-center">
+          <div className="grid grid-cols-3 gap-3 sm:gap-6 text-center">
             <div>
               <p className="text-xs text-text-muted uppercase tracking-wider mb-1">
                 Original
@@ -173,9 +172,8 @@ export default function CompressTool() {
                 Saved
               </p>
               <p
-                className={`font-mono text-xl font-bold ${
-                  savings > 0 ? 'text-success' : 'text-text-muted'
-                }`}
+                className={`font-mono text-xl font-bold ${savings > 0 ? 'text-success' : 'text-text-muted'
+                  }`}
               >
                 {savings > 0 ? '-' : ''}
                 {savingsPercent}%
@@ -215,7 +213,7 @@ export default function CompressTool() {
           <button
             onClick={handleCompress}
             disabled={processing}
-            className="px-8 py-3 bg-accent hover:bg-accent-hover text-white font-display font-bold rounded-xl transition-all disabled:opacity-40 cursor-pointer flex items-center gap-3"
+            className="w-full sm:w-auto px-6 sm:px-8 py-3 bg-accent hover:bg-accent-hover text-white font-display font-bold rounded-xl transition-all disabled:opacity-40 cursor-pointer flex items-center justify-center gap-3"
           >
             {processing ? (
               <>
@@ -229,7 +227,7 @@ export default function CompressTool() {
         ) : (
           <button
             onClick={handleDownload}
-            className="px-8 py-3 bg-accent hover:bg-accent-hover text-white font-display font-bold rounded-xl transition-all cursor-pointer flex items-center gap-3"
+            className="w-full sm:w-auto px-6 sm:px-8 py-3 bg-accent hover:bg-accent-hover text-white font-display font-bold rounded-xl transition-all cursor-pointer flex items-center justify-center gap-3"
           >
             <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
               <path d="M9 2V12M9 12L5 8M9 12L13 8M3 15H15" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
