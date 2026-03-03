@@ -26,10 +26,7 @@ export default function ResizeTool() {
       const width = orientation === 'portrait' ? w : h;
       const height = orientation === 'portrait' ? h : w;
       const result = await resizePdfPages(pdfInfo.data, width, height);
-      const name = pdfInfo.name.replace(
-        /\.pdf$/i,
-        `_${selectedSize.toLowerCase()}.pdf`,
-      );
+      const name = pdfInfo.name.replace(/\.pdf$/i, `_${selectedSize.toLowerCase()}.pdf`);
       downloadBlob(result, name);
       setDone(true);
     } catch (err) {
@@ -61,7 +58,6 @@ export default function ResizeTool() {
 
   return (
     <div className="space-y-8 animate-fade-in-up">
-      {/* File info */}
       <div className="flex items-center justify-between p-5 rounded-xl bg-surface border border-border">
         <div>
           <p className="font-medium">{pdfInfo.name}</p>
@@ -77,7 +73,6 @@ export default function ResizeTool() {
         </button>
       </div>
 
-      {/* Page size selection */}
       <div className="space-y-4">
         <h3 className="font-display font-bold text-lg">Target Page Size</h3>
         <div className="grid grid-cols-3 sm:grid-cols-6 gap-2 sm:gap-3">
@@ -87,10 +82,11 @@ export default function ResizeTool() {
               <button
                 key={key}
                 onClick={() => { setSelectedSize(key); setDone(false); }}
-                className={`p-4 rounded-xl border-2 text-center transition-all cursor-pointer ${selectedSize === key
+                className={`p-4 rounded-xl border-2 text-center transition-all cursor-pointer ${
+                  selectedSize === key
                     ? 'border-accent bg-accent-muted'
                     : 'border-border hover:border-border-light'
-                  }`}
+                }`}
               >
                 <p className="font-display font-bold text-sm">{key}</p>
                 <p className="text-[10px] text-text-muted font-mono mt-1">
@@ -102,26 +98,23 @@ export default function ResizeTool() {
         </div>
       </div>
 
-      {/* Orientation */}
       <div className="space-y-4">
         <h3 className="font-display font-bold text-lg">Orientation</h3>
         <div className="grid grid-cols-2 gap-3 max-w-sm">
           <button
             onClick={() => { setOrientation('portrait'); setDone(false); }}
-            className={`p-4 rounded-xl border-2 flex items-center gap-3 transition-all cursor-pointer ${orientation === 'portrait'
-                ? 'border-accent bg-accent-muted'
-                : 'border-border hover:border-border-light'
-              }`}
+            className={`p-4 rounded-xl border-2 flex items-center gap-3 transition-all cursor-pointer ${
+              orientation === 'portrait' ? 'border-accent bg-accent-muted' : 'border-border hover:border-border-light'
+            }`}
           >
             <div className="w-6 h-8 rounded border-2 border-current opacity-50" />
             <span className="font-display font-bold text-sm">Portrait</span>
           </button>
           <button
             onClick={() => { setOrientation('landscape'); setDone(false); }}
-            className={`p-4 rounded-xl border-2 flex items-center gap-3 transition-all cursor-pointer ${orientation === 'landscape'
-                ? 'border-accent bg-accent-muted'
-                : 'border-border hover:border-border-light'
-              }`}
+            className={`p-4 rounded-xl border-2 flex items-center gap-3 transition-all cursor-pointer ${
+              orientation === 'landscape' ? 'border-accent bg-accent-muted' : 'border-border hover:border-border-light'
+            }`}
           >
             <div className="w-8 h-6 rounded border-2 border-current opacity-50" />
             <span className="font-display font-bold text-sm">Landscape</span>
@@ -129,7 +122,6 @@ export default function ResizeTool() {
         </div>
       </div>
 
-      {/* Preview size info */}
       <div className="p-4 rounded-xl bg-surface-elevated border border-border space-y-2">
         <p className="text-sm text-text-muted">
           All {pdfInfo.pageCount} pages will be padded to{' '}
@@ -143,7 +135,6 @@ export default function ResizeTool() {
         </p>
       </div>
 
-      {/* Action */}
       <button
         onClick={handleResize}
         disabled={processing}

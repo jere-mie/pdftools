@@ -84,9 +84,7 @@ export default function PageThumbnail({
             style={{ transform: `rotate(${rotation}deg)` }}
           />
         ) : (
-          <span className="text-gray-400 font-mono text-sm">
-            {pageNum}
-          </span>
+          <span className="text-gray-400 font-mono text-sm">{pageNum}</span>
         )}
       </div>
 

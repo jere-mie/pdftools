@@ -9,6 +9,7 @@ export default function ReorderTool() {
   const [pageOrder, setPageOrder] = useState<number[]>([]);
   const [processing, setProcessing] = useState(false);
   const [done, setDone] = useState(false);
+  const [dragIdx, setDragIdx] = useState<number | null>(null);
   const dragIndex = useRef<number | null>(null);
   const dragOverIndex = useRef<number | null>(null);
 
@@ -18,8 +19,6 @@ export default function ReorderTool() {
     setPageOrder(Array.from({ length: info.pageCount }, (_, i) => i));
     setDone(false);
   }, []);
-
-  const [dragIdx, setDragIdx] = useState<number | null>(null);
 
   const handleDragStart = (idx: number) => {
     dragIndex.current = idx;
@@ -98,7 +97,6 @@ export default function ReorderTool() {
 
   return (
     <div className="space-y-8 animate-fade-in-up">
-      {/* File info */}
       <div className="flex items-center justify-between p-5 rounded-xl bg-surface border border-border">
         <div>
           <p className="font-medium">{pdfInfo.name}</p>
@@ -114,11 +112,8 @@ export default function ReorderTool() {
         </button>
       </div>
 
-      {/* Controls */}
       <div className="flex flex-wrap items-center gap-3">
-        <span className="text-sm text-text-muted">
-          Drag pages to reorder them
-        </span>
+        <span className="text-sm text-text-muted">Drag pages to reorder them</span>
         <div className="flex gap-2 ml-auto">
           <button
             onClick={reverseOrder}
@@ -135,7 +130,6 @@ export default function ReorderTool() {
         </div>
       </div>
 
-      {/* Page grid */}
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
         {pageOrder.map((originalIdx, currentIdx) => (
           <div
@@ -145,10 +139,10 @@ export default function ReorderTool() {
             onDragEnter={() => handleDragEnter(currentIdx)}
             onDragOver={(e) => handleDragOver(e)}
             onDragEnd={handleDragEnd}
-            className={`relative cursor-grab active:cursor-grabbing transition-all ${dragIdx === currentIdx ? 'opacity-40 scale-95' : ''
-              }`}
+            className={`relative cursor-grab active:cursor-grabbing transition-all ${
+              dragIdx === currentIdx ? 'opacity-40 scale-95' : ''
+            }`}
           >
-            {/* Position badge */}
             <div className="absolute -top-2 -left-2 z-10 w-7 h-7 rounded-full bg-accent text-white text-[11px] font-mono font-bold flex items-center justify-center shadow-lg">
               {currentIdx + 1}
             </div>
@@ -162,7 +156,6 @@ export default function ReorderTool() {
         ))}
       </div>
 
-      {/* Action */}
       <button
         onClick={handleReorder}
         disabled={processing || !isModified}

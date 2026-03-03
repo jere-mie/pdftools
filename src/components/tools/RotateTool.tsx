@@ -68,7 +68,6 @@ export default function RotateTool() {
 
   return (
     <div className="space-y-8 animate-fade-in-up">
-      {/* File info */}
       <div className="flex items-center justify-between p-5 rounded-xl bg-surface border border-border">
         <div>
           <p className="font-medium">{pdfInfo.name}</p>
@@ -84,7 +83,6 @@ export default function RotateTool() {
         </button>
       </div>
 
-      {/* Rotate all controls */}
       <div className="flex flex-wrap items-center gap-3">
         <span className="text-sm text-text-muted font-medium">Rotate all:</span>
         {[90, 180, 270].map((deg) => (
@@ -98,7 +96,6 @@ export default function RotateTool() {
         ))}
       </div>
 
-      {/* Page grid */}
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
         {Array.from({ length: pdfInfo.pageCount }, (_, i) => {
           const rot = rotations.get(i) ?? 0;
@@ -136,7 +133,6 @@ export default function RotateTool() {
         })}
       </div>
 
-      {/* Action */}
       <button
         onClick={handleRotate}
         disabled={processing || rotations.size === 0}

@@ -1,0 +1,11 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ToolPage from '../components/ToolPage';
+---
+
+<Layout
+  title="Rotate PDF Pages – Turn Pages 90°/180°/270° | PDFTools"
+  description="Rotate individual PDF pages or the entire document 90°, 180°, or 270°. Visual page grid preview. Free, browser-based – no uploads required."
+>
+  <ToolPage toolId="rotate" client:only="react" />
+</Layout>

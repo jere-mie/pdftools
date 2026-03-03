@@ -93,7 +93,6 @@ export default function SplitTool() {
 
   return (
     <div className="space-y-8 animate-fade-in-up">
-      {/* File info */}
       <div className="flex items-center justify-between p-5 rounded-xl bg-surface border border-border">
         <div>
           <p className="font-medium">{pdfInfo.name}</p>
@@ -109,38 +108,30 @@ export default function SplitTool() {
         </button>
       </div>
 
-      {/* Mode selection */}
       <div className="space-y-4">
         <h3 className="font-display font-bold text-lg">Split mode</h3>
         <div className="grid grid-cols-2 gap-3">
           <button
             onClick={() => { setMode('each'); setDone(false); }}
-            className={`p-4 rounded-xl border-2 text-left transition-all cursor-pointer ${mode === 'each'
-                ? 'border-accent bg-accent-muted'
-                : 'border-border hover:border-border-light'
-              }`}
+            className={`p-4 rounded-xl border-2 text-left transition-all cursor-pointer ${
+              mode === 'each' ? 'border-accent bg-accent-muted' : 'border-border hover:border-border-light'
+            }`}
           >
             <p className="font-display font-bold text-sm">Extract every page</p>
-            <p className="text-xs text-text-muted mt-1">
-              Each page becomes its own PDF
-            </p>
+            <p className="text-xs text-text-muted mt-1">Each page becomes its own PDF</p>
           </button>
           <button
             onClick={() => { setMode('ranges'); setDone(false); }}
-            className={`p-4 rounded-xl border-2 text-left transition-all cursor-pointer ${mode === 'ranges'
-                ? 'border-accent bg-accent-muted'
-                : 'border-border hover:border-border-light'
-              }`}
+            className={`p-4 rounded-xl border-2 text-left transition-all cursor-pointer ${
+              mode === 'ranges' ? 'border-accent bg-accent-muted' : 'border-border hover:border-border-light'
+            }`}
           >
             <p className="font-display font-bold text-sm">Custom ranges</p>
-            <p className="text-xs text-text-muted mt-1">
-              Specify which pages to extract
-            </p>
+            <p className="text-xs text-text-muted mt-1">Specify which pages to extract</p>
           </button>
         </div>
       </div>
 
-      {/* Range input */}
       {mode === 'ranges' && (
         <div className="space-y-3 animate-fade-in">
           <label className="block text-sm text-text-muted">
@@ -161,7 +152,6 @@ export default function SplitTool() {
         </div>
       )}
 
-      {/* Action */}
       <button
         onClick={handleSplit}
         disabled={processing || (mode === 'ranges' && !validRanges)}
@@ -183,9 +173,7 @@ export default function SplitTool() {
           <>
             Split PDF
             {mode === 'each' && (
-              <span className="text-sm font-mono opacity-70">
-                → {pdfInfo.pageCount} files
-              </span>
+              <span className="text-sm font-mono opacity-70">→ {pdfInfo.pageCount} files</span>
             )}
           </>
         )}

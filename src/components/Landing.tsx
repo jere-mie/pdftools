@@ -1,11 +1,8 @@
-import type { ToolId } from '../tools';
 import { toolDefs, hiddenTools } from '../tools';
 
-interface LandingProps {
-  onSelectTool: (tool: ToolId) => void;
-}
+export default function Landing() {
+  const base = import.meta.env.BASE_URL;
 
-export default function Landing({ onSelectTool }: LandingProps) {
   return (
     <div className="min-h-screen bg-base">
       {/* Background decorative elements */}
@@ -53,14 +50,14 @@ export default function Landing({ onSelectTool }: LandingProps) {
         <div className="max-w-5xl mx-auto">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {toolDefs.filter((t) => !hiddenTools.has(t.id)).map((tool, i) => (
-              <button
+              <a
                 key={tool.id}
-                onClick={() => onSelectTool(tool.id)}
+                href={`${base}${tool.id}`}
                 className={`
                   animate-fade-in-up stagger-${Math.min(i + 1, 7)}
                   group relative p-6 rounded-2xl border border-border bg-surface/40
                   hover:bg-surface-elevated hover:border-accent/40
-                  transition-all duration-300 text-left cursor-pointer
+                  transition-all duration-300 text-left cursor-pointer no-underline
                   hover:shadow-lg hover:shadow-accent/5 hover:-translate-y-0.5
                 `}
               >
@@ -93,7 +90,7 @@ export default function Landing({ onSelectTool }: LandingProps) {
                     />
                   </svg>
                 </div>
-              </button>
+              </a>
             ))}
           </div>
         </div>

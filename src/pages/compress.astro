@@ -1,0 +1,11 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ToolPage from '../components/ToolPage';
+---
+
+<Layout
+  title="Compress PDF – Reduce PDF File Size | PDFTools"
+  description="Compress PDF files using Ghostscript WebAssembly. Real image downsampling and font subsetting – not just re-serialization. Four quality presets. Free, browser-based."
+>
+  <ToolPage toolId="compress" client:only="react" />
+</Layout>

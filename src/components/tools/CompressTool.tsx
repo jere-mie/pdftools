@@ -18,7 +18,6 @@ export default function CompressTool() {
   const [progress, setProgress] = useState(0);
   const progressIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
-  // Elastic simulated progress: advances quickly then decelerates toward 90%
   useEffect(() => {
     if (processing) {
       setProgress(0);
@@ -30,7 +29,6 @@ export default function CompressTool() {
         clearInterval(progressIntervalRef.current);
         progressIntervalRef.current = null;
       }
-      // Snap to 100 briefly when done, then reset
       setProgress(100);
       const t = setTimeout(() => setProgress(0), 600);
       return () => clearTimeout(t);
@@ -80,13 +78,10 @@ export default function CompressTool() {
   }
 
   const savings = result ? pdfInfo.size - result.size : 0;
-  const savingsPercent = result
-    ? ((savings / pdfInfo.size) * 100).toFixed(1)
-    : '0';
+  const savingsPercent = result ? ((savings / pdfInfo.size) * 100).toFixed(1) : '0';
 
   return (
     <div className="space-y-8 animate-fade-in-up">
-      {/* File info */}
       <div className="flex items-center justify-between p-5 rounded-xl bg-surface border border-border">
         <div>
           <p className="font-medium">{pdfInfo.name}</p>
@@ -102,7 +97,6 @@ export default function CompressTool() {
         </button>
       </div>
 
-      {/* Quality selector */}
       <div className="space-y-3">
         <p className="text-sm font-display font-bold">Quality preset</p>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
@@ -111,10 +105,11 @@ export default function CompressTool() {
               key={opt.value}
               onClick={() => { setResult(null); setQuality(opt.value); }}
               disabled={processing}
-              className={`flex flex-col items-start p-3 rounded-xl border transition-all cursor-pointer disabled:opacity-40 ${quality === opt.value
+              className={`flex flex-col items-start p-3 rounded-xl border transition-all cursor-pointer disabled:opacity-40 ${
+                quality === opt.value
                   ? 'border-accent bg-accent-muted text-accent'
                   : 'border-border bg-surface hover:border-accent/50'
-                }`}
+              }`}
             >
               <span className="font-display font-bold text-sm">{opt.label}</span>
               <span className="text-xs text-text-muted mt-0.5">{opt.description}</span>
@@ -123,11 +118,8 @@ export default function CompressTool() {
         </div>
       </div>
 
-      {/* Info box */}
       <div className="p-5 rounded-xl bg-surface-elevated border border-border">
-        <h3 className="font-display font-bold text-sm mb-2">
-          What this does
-        </h3>
+        <h3 className="font-display font-bold text-sm mb-2">What this does</h3>
         <ul className="space-y-1.5 text-sm text-text-muted">
           <li className="flex items-start gap-2">
             <span className="text-accent mt-0.5">→</span>
@@ -147,36 +139,21 @@ export default function CompressTool() {
         </p>
       </div>
 
-      {/* Result */}
       {result && (
         <div className="p-6 rounded-xl border-2 border-accent/30 bg-accent-muted animate-fade-in">
           <div className="grid grid-cols-3 gap-3 sm:gap-6 text-center">
             <div>
-              <p className="text-xs text-text-muted uppercase tracking-wider mb-1">
-                Original
-              </p>
-              <p className="font-mono text-xl font-bold">
-                {formatFileSize(pdfInfo.size)}
-              </p>
+              <p className="text-xs text-text-muted uppercase tracking-wider mb-1">Original</p>
+              <p className="font-mono text-xl font-bold">{formatFileSize(pdfInfo.size)}</p>
             </div>
             <div>
-              <p className="text-xs text-text-muted uppercase tracking-wider mb-1">
-                Optimized
-              </p>
-              <p className="font-mono text-xl font-bold text-accent">
-                {formatFileSize(result.size)}
-              </p>
+              <p className="text-xs text-text-muted uppercase tracking-wider mb-1">Optimized</p>
+              <p className="font-mono text-xl font-bold text-accent">{formatFileSize(result.size)}</p>
             </div>
             <div>
-              <p className="text-xs text-text-muted uppercase tracking-wider mb-1">
-                Saved
-              </p>
-              <p
-                className={`font-mono text-xl font-bold ${savings > 0 ? 'text-success' : 'text-text-muted'
-                  }`}
-              >
-                {savings > 0 ? '-' : ''}
-                {savingsPercent}%
+              <p className="text-xs text-text-muted uppercase tracking-wider mb-1">Saved</p>
+              <p className={`font-mono text-xl font-bold ${savings > 0 ? 'text-success' : 'text-text-muted'}`}>
+                {savings > 0 ? '-' : ''}{savingsPercent}%
               </p>
             </div>
           </div>
@@ -188,7 +165,6 @@ export default function CompressTool() {
         </div>
       )}
 
-      {/* Progress bar */}
       {processing && (
         <div className="space-y-2">
           <div className="flex justify-between items-center text-xs text-text-muted">
@@ -207,7 +183,6 @@ export default function CompressTool() {
         </div>
       )}
 
-      {/* Action */}
       <div className="flex gap-3">
         {!result ? (
           <button

@@ -31,17 +31,12 @@ export async function getPdfInfo(file: File): Promise<PDFFileInfo> {
 
 /**
  * Cache loaded PDF documents so we don't re-parse the same file for every page.
- * WeakMap ensures the cache entry is released when the ArrayBuffer is GC'd.
- * We must copy the buffer before handing it to pdfjs because its worker will
- * *transfer* (detach) the underlying ArrayBuffer, which would break every
- * other concurrent caller that shares the same buffer reference.
  */
 const pdfDocCache = new WeakMap<ArrayBuffer, Promise<pdfjsLib.PDFDocumentProxy>>();
 
 function loadPdfDocument(data: ArrayBuffer): Promise<pdfjsLib.PDFDocumentProxy> {
   let cached = pdfDocCache.get(data);
   if (!cached) {
-    // .slice(0) creates an independent copy so the original is never detached
     cached = pdfjsLib.getDocument({ data: new Uint8Array(data.slice(0)) }).promise;
     pdfDocCache.set(data, cached);
   }
@@ -169,14 +164,6 @@ export async function reorderPdfPages(
 
 export type GsQuality = 'screen' | 'ebook' | 'printer' | 'prepress';
 
-/**
- * Compress a PDF using Ghostscript WASM in a dedicated web worker.
- * Ghostscript performs real image downsampling and font subsetting, producing
- * significantly smaller files compared to a pure JS re-serialisation.
- *
- * @param data     - Raw PDF bytes
- * @param quality  - Ghostscript PDFSETTINGS preset (screen < ebook < printer < prepress)
- */
 export function compressPdf(
   data: ArrayBuffer,
   quality: GsQuality = 'ebook',
@@ -205,7 +192,6 @@ export function compressPdf(
       reject(err);
     };
 
-    // Transfer the buffer so the worker owns it and no copy is made
     const copy = data.slice(0);
     worker.postMessage({ id, pdfData: copy, quality }, [copy]);
   });
@@ -236,7 +222,6 @@ export async function resizePdfPages(
       const srcPage = source.getPage(i);
       const { width: origW, height: origH } = srcPage.getSize();
 
-      // Create a new blank page at the target size with white background
       const newPage = newDoc.addPage([width, height]);
       newPage.drawRectangle({
         x: 0,
@@ -246,18 +231,15 @@ export async function resizePdfPages(
         color: rgb(1, 1, 1),
       });
 
-      // Embed the page directly from the source document
       const embeddedPage = await newDoc.embedPage(srcPage);
 
-      // Scale to fit within target while preserving aspect ratio
       const scaleX = width / origW;
       const scaleY = height / origH;
-      const scale = Math.min(scaleX, scaleY, 1); // never upscale
+      const scale = Math.min(scaleX, scaleY, 1);
 
       const drawW = origW * scale;
       const drawH = origH * scale;
 
-      // Center on the page
       const offsetX = (width - drawW) / 2;
       const offsetY = (height - drawH) / 2;
 
@@ -268,7 +250,6 @@ export async function resizePdfPages(
         height: drawH,
       });
     } else {
-      // Non-targeted pages: copy as-is
       const [copied] = await newDoc.copyPages(source, [i]);
       newDoc.addPage(copied);
     }

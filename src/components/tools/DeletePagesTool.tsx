@@ -67,7 +67,6 @@ export default function DeletePagesTool() {
 
   return (
     <div className="space-y-8 animate-fade-in-up">
-      {/* File info */}
       <div className="flex items-center justify-between p-5 rounded-xl bg-surface border border-border">
         <div>
           <p className="font-medium">{pdfInfo.name}</p>
@@ -83,7 +82,6 @@ export default function DeletePagesTool() {
         </button>
       </div>
 
-      {/* Status */}
       <div className="flex items-center gap-3">
         <p className="text-sm text-text-muted">
           Click pages to mark for deletion.{' '}
@@ -100,7 +98,6 @@ export default function DeletePagesTool() {
         )}
       </div>
 
-      {/* Page grid */}
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
         {Array.from({ length: pdfInfo.pageCount }, (_, i) => (
           <div key={i} className={`transition-opacity ${selected.has(i) ? 'opacity-50' : ''}`}>
@@ -115,7 +112,6 @@ export default function DeletePagesTool() {
         ))}
       </div>
 
-      {/* Action */}
       <button
         onClick={handleDelete}
         disabled={processing || selected.size === 0 || remaining === 0}

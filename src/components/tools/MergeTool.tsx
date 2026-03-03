@@ -20,7 +20,7 @@ function FileThumbnail({ file, onLoaded }: { file: File; onLoaded: (url: string)
         setSrc(url);
         onLoaded(url);
       }),
-    ).catch(() => { });
+    ).catch(() => {});
   }, [file, onLoaded]);
 
   if (!src) {
@@ -77,7 +77,6 @@ export default function MergeTool() {
     setDone(false);
   };
 
-  /* Drag-and-drop handlers */
   const handleDragStart = (index: number) => {
     dragItem.current = index;
     setDragIdx(index);
@@ -152,12 +151,11 @@ export default function MergeTool() {
                 onDragEnter={() => handleDragEnter(index)}
                 onDragOver={(e) => e.preventDefault()}
                 onDragEnd={handleDragEnd}
-                className={`flex items-center gap-3 p-3 sm:p-4 rounded-xl bg-surface border border-border group hover:border-border-light transition-all cursor-grab active:cursor-grabbing ${dragIdx === index ? 'opacity-40 scale-[0.98]' : ''
-                  }`}
+                className={`flex items-center gap-3 p-3 sm:p-4 rounded-xl bg-surface border border-border group hover:border-border-light transition-all cursor-grab active:cursor-grabbing ${
+                  dragIdx === index ? 'opacity-40 scale-[0.98]' : ''
+                }`}
               >
-                {/* Drag handle + order */}
                 <div className="flex items-center gap-3">
-                  {/* Grip icon */}
                   <svg width="12" height="20" viewBox="0 0 12 20" fill="none" className="text-text-dim shrink-0">
                     <circle cx="3" cy="3" r="1.5" fill="currentColor" />
                     <circle cx="9" cy="3" r="1.5" fill="currentColor" />
@@ -171,13 +169,11 @@ export default function MergeTool() {
                   </span>
                 </div>
 
-                {/* PDF thumbnail */}
                 <FileThumbnail
                   file={item.file}
                   onLoaded={(url) => setThumbnail(item.id, url)}
                 />
 
-                {/* File info */}
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-medium truncate">{item.file.name}</p>
                   <p className="text-xs text-text-muted font-mono">
@@ -185,7 +181,6 @@ export default function MergeTool() {
                   </p>
                 </div>
 
-                {/* Move buttons - always visible on mobile, hover-only on desktop */}
                 <div className="flex gap-1 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity">
                   <button
                     onClick={(e) => { e.stopPropagation(); index > 0 && moveFile(index, index - 1); }}
@@ -210,7 +205,6 @@ export default function MergeTool() {
                   </button>
                 </div>
 
-                {/* Remove */}
                 <button
                   onClick={(e) => { e.stopPropagation(); removeFile(item.id); }}
                   className="p-1.5 rounded-lg hover:bg-danger/10 text-text-muted hover:text-danger transition-colors cursor-pointer"
@@ -223,7 +217,6 @@ export default function MergeTool() {
             ))}
           </div>
 
-          {/* Action */}
           <div className="flex flex-wrap items-center gap-4 pt-2">
             <button
               onClick={handleMerge}
@@ -247,9 +240,7 @@ export default function MergeTool() {
               )}
             </button>
             {files.length < 2 && (
-              <p className="text-sm text-text-muted">
-                Add at least 2 files to merge
-              </p>
+              <p className="text-sm text-text-muted">Add at least 2 files to merge</p>
             )}
           </div>
         </div>

@@ -66,8 +66,9 @@ export default function FileUpload({
 
       {/* Upload icon */}
       <div
-        className={`transition-all duration-300 ${isDragging ? 'scale-110 -translate-y-1' : 'group-hover:scale-105'
-          }`}
+        className={`transition-all duration-300 ${
+          isDragging ? 'scale-110 -translate-y-1' : 'group-hover:scale-105'
+        }`}
       >
         <svg
           width="64"
