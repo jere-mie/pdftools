@@ -3,7 +3,7 @@
  * Runs in a separate thread to keep the UI responsive during CPU-intensive processing.
  */
 
-// @ts-expect-error – no types shipped with the package
+// @ts-expect-error - no types shipped with the package
 import initGhostscript from '@jspawn/ghostscript-wasm/gs.js';
 import gsWasmUrl from '@jspawn/ghostscript-wasm/gs.wasm?url';
 

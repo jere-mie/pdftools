@@ -197,6 +197,43 @@ export function compressPdf(
   });
 }
 
+export type ImageFormat = 'png' | 'jpeg' | 'webp';
+
+export async function renderPageAsImage(
+  data: ArrayBuffer,
+  pageNum: number, // 1-indexed
+  scale: number,
+  format: ImageFormat,
+  quality: number, // 0-1, for jpeg/webp
+): Promise<Blob> {
+  const pdf = await loadPdfDocument(data);
+  const page = await pdf.getPage(pageNum);
+  const viewport = page.getViewport({ scale });
+
+  const canvas = document.createElement('canvas');
+  canvas.width = Math.round(viewport.width);
+  canvas.height = Math.round(viewport.height);
+  const ctx = canvas.getContext('2d')!;
+
+  if (format === 'jpeg') {
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+  }
+
+  await page.render({ canvas, canvasContext: ctx, viewport }).promise;
+
+  return new Promise((resolve, reject) => {
+    canvas.toBlob(
+      (blob) => {
+        if (blob) resolve(blob);
+        else reject(new Error('Failed to convert canvas to blob'));
+      },
+      `image/${format}`,
+      quality,
+    );
+  });
+}
+
 export const PAGE_SIZES: Record<string, [number, number]> = {
   'A3': [841.89, 1190.55],
   'A4': [595.28, 841.89],

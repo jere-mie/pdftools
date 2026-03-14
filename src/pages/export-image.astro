@@ -1,0 +1,11 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ToolPage from '../components/ToolPage';
+---
+
+<Layout
+  title="PDF to Image - Convert PDF Pages to PNG, JPEG, WebP | PDFTools"
+  description="Convert PDF pages to high-quality PNG, JPEG, or WebP images. Choose resolution and page ranges. Free, browser-based - no uploads required."
+>
+  <ToolPage toolId="export-image" client:only="react" />
+</Layout>

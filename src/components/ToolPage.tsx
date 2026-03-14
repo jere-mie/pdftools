@@ -6,6 +6,7 @@ import DeletePagesTool from './tools/DeletePagesTool';
 import ReorderTool from './tools/ReorderTool';
 import CompressTool from './tools/CompressTool';
 import ResizeTool from './tools/ResizeTool';
+import ExportImageTool from './tools/ExportImageTool';
 import { toolDefs } from '../tools';
 import type { ToolId } from '../tools';
 
@@ -17,6 +18,7 @@ const toolComponents: Record<ToolId, React.ComponentType> = {
   reorder: ReorderTool,
   compress: CompressTool,
   resize: ResizeTool,
+  'export-image': ExportImageTool,
 };
 
 interface ToolPageProps {

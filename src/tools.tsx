@@ -7,7 +7,8 @@ export type ToolId =
   | 'delete'
   | 'reorder'
   | 'compress'
-  | 'resize';
+  | 'resize'
+  | 'export-image';
 
 export interface ToolDef {
   id: ToolId;
@@ -122,6 +123,20 @@ export const toolDefs: ToolDef[] = [
         <rect x="5" y="5" width="18" height="18" rx="2" stroke="currentColor" strokeWidth="1.8" />
         <rect x="9" y="9" width="10" height="10" rx="1" stroke="currentColor" strokeWidth="1.5" strokeDasharray="2 1.5" />
         <path d="M5 5L9 9M23 5L19 9M23 23L19 19M5 23L9 19" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+      </svg>
+    ),
+  },
+  {
+    id: 'export-image',
+    name: 'PDF to Image',
+    tagline: 'Export as images',
+    description: 'Convert PDF pages to high-quality PNG, JPEG, or WebP images',
+    metaDescription: 'Convert PDF pages to high-quality PNG, JPEG, or WebP images. Choose resolution and export specific pages or ranges. Free, browser-based.',
+    icon: (
+      <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+        <rect x="4" y="4" width="20" height="20" rx="2.5" stroke="currentColor" strokeWidth="1.8" />
+        <circle cx="10.5" cy="10.5" r="2" stroke="currentColor" strokeWidth="1.5" />
+        <path d="M4 18l6-5 4 4 3-3 7 6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
     ),
   },
