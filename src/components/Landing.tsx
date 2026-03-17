@@ -23,7 +23,7 @@ export default function Landing() {
           </div>
 
           {/* Title */}
-          <h1 className="animate-fade-in-up stagger-1 font-display font-extrabold text-5xl sm:text-7xl md:text-8xl tracking-tight leading-[0.9]">
+          <h1 style={{ fontSize: 'clamp(1.2rem, 10vw, 6rem)' }} className="animate-fade-in-up stagger-1 font-display font-extrabold tracking-tight leading-[0.9]">
             <span className="text-text">PDF</span>
             <span className="text-accent">TOOLS</span>
           </h1>
