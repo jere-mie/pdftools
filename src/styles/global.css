@@ -113,3 +113,15 @@ body::after {
 .stagger-5 { animation-delay: 0.25s; }
 .stagger-6 { animation-delay: 0.3s; }
 .stagger-7 { animation-delay: 0.35s; }
+
+/* Credit link styling */
+.credit-link {
+  color: var(--color-text-muted);
+  text-decoration: none;
+  transition: color 150ms ease, transform 150ms ease;
+}
+.credit-link:hover,
+.credit-link:focus {
+  color: var(--color-accent);
+  transform: translateY(-2px);
+}

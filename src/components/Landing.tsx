@@ -104,7 +104,9 @@ export default function Landing() {
             processing happens in your browser
           </p>
           <div className="flex items-center gap-4">
-            <p>Built with pdf-lib · No data leaves your device</p>
+            <p>
+              Made by <a className="credit-link" href="https://jeremie.bornais.ca" target="_blank" rel="noopener noreferrer">Jeremie Bornais</a>
+            </p>
             <a
               href="https://github.com/jere-mie/pdftools"
               target="_blank"
